@@ -1,8 +1,20 @@
+@import url("https://fonts.googleapis.com/css?family=Lexend+Deca");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+  .code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+  
+  .link {
+    color: #093545;
+    text-decoration-line: underline;
+    font-family: "Montserrat";
+  }
 }
+
+@tailwind utilities;
