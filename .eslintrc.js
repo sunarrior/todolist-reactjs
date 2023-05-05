@@ -18,6 +18,12 @@ module.exports = {
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "import/prefer-default-export": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
     "no-unused-vars": "warn",
     "no-param-reassign": [
       "error",
