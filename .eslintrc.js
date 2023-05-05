@@ -4,6 +4,7 @@ module.exports = {
     es2021: true,
   },
   extends: [
+    "prettier",
     "plugin:react/recommended",
     "airbnb",
     "plugin:prettier/recommended",
@@ -21,7 +22,7 @@ module.exports = {
     "prettier/prettier": [
       "error",
       {
-        endOfLine: "auto",
+        "endOfLine": "auto",
       },
     ],
     "no-unused-vars": "warn",
