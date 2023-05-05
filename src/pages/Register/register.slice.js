@@ -3,19 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 export const registerSlice = createSlice({
   name: "register",
   initialState: {
-    fullName: "",
-    username: "",
     email: "",
     password: "",
     repeatPassword: "",
   },
   reducers: {
-    fullNameChange: (state, action) => {
-      state.fullName = action.payload;
-    },
-    usernameChange: (state, action) => {
-      state.username = action.payload;
-    },
     emailChange: (state, action) => {
       state.email = action.payload;
     },
@@ -28,12 +20,15 @@ export const registerSlice = createSlice({
   },
 });
 
-export const {
-  fullNameChange,
-  usernameChange,
-  emailChange,
-  passwordChange,
-  repeatPasswordChange,
-} = registerSlice.actions;
+export const { emailChange, passwordChange, repeatPasswordChange } =
+  registerSlice.actions;
 
 export default registerSlice.reducer;
+
+export const selectAccountInfo = (state) => {
+  return {
+    email: state.register.email,
+    password: state.register.password,
+    repeatPassword: state.register.repeatPassword,
+  };
+};
