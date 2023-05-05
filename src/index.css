@@ -18,3 +18,16 @@
 }
 
 @tailwind utilities;
+
+.Toastify__toast--success {
+  height: 100px !important;
+  border-radius: 15px !important;
+}
+.Toastify__toast--warning {
+  height: 100px !important;
+  border-radius: 15px !important;
+}
+.Toastify__toast--error {
+  height: 100px !important;
+  border-radius: 15px !important;
+}
