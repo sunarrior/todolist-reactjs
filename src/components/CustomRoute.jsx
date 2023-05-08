@@ -1,7 +1,7 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useUser } from "../context/user.context";
 
-export function CustomRoute({ isPublic, children: Component }) {
+export function CustomRoute({ path, isPublic, children: Component }) {
   const { isLoggedIn } = useUser();
   const location = useLocation();
 
@@ -10,5 +10,13 @@ export function CustomRoute({ isPublic, children: Component }) {
       return <Navigate to="/login" state={{ from: location }} replace />;
     }
   }
-  return Component ? <Component /> : <Outlet />;
+
+  const redirectIfLoggedIn = ["/register", "/login"];
+  if (isLoggedIn) {
+    if (redirectIfLoggedIn.includes(path)) {
+      return <Navigate to="/" state={{ from: location }} replace />;
+    }
+  }
+
+  return Component ? <Component /> : null;
 }

@@ -1,20 +1,12 @@
 import Joi from "joi";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "@firebase/auth";
 
 import { auth } from "../../config/firebase.config";
 import commonConstant from "../../constant/common.constant";
-import registerConstant from "../../constant/register.constant";
+import loginConstant from "../../constant/login.constant";
 
-async function createUser(registerInfo) {
-  const { email, password, repeatPassword } = registerInfo;
-
-  // Check if repeat password match provide password
-  if (password.localeCompare(repeatPassword) !== 0) {
-    throw new Error(registerConstant.PASSWORD.REPEAT_PASSWORD_NOT_MATCH);
-  }
+async function authUser(loginInfo) {
+  const { email, password } = loginInfo;
 
   // Validate password requirement
   const validateSchema = Joi.object({
@@ -33,7 +25,7 @@ async function createUser(registerInfo) {
         msg = commonConstant.EMAIL_INVALID;
         break;
       case "password":
-        msg = registerConstant.PASSWORD.PASSWORD_NOT_MATCH_REQUIREMENT;
+        msg = loginConstant.WRONG_PASSWORD;
         break;
       default:
         msg = commonConstant.SOMETHING_WENT_WRONG;
@@ -42,21 +34,22 @@ async function createUser(registerInfo) {
     throw new Error(msg);
   }
 
-  // Process register account to firebase
-  const userCredential = await createUserWithEmailAndPassword(
-    auth,
-    email,
-    password
-  );
-  const { user } = userCredential;
-
+  // Process login account to firebase
   try {
-    sendEmailVerification(user);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const uobj = {
+      access_token: userCredential.user.accessToken,
+      expiration_time: userCredential.user.stsTokenManager.expirationTime,
+      refresh_token: userCredential.user.refreshToken,
+    };
+    return uobj;
   } catch (error) {
     throw new Error(error.message);
   }
-
-  return registerConstant.REGISTER_SUCCESSFUL;
 }
 
-export { createUser };
+export { authUser };
