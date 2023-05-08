@@ -11,18 +11,17 @@ export default function App() {
       <Suspense fallback={<Spinner />}>
         <Routes>
           {routes.map(({ path, isPublic, component: Component }) => {
-            if (!isPublic) {
-              return (
-                <Route
-                  key={path}
-                  path={path}
-                  element={
-                    <CustomRoute isPublic={isPublic}>{Component}</CustomRoute>
-                  }
-                />
-              );
-            }
-            return <Route key={path} path={path} element={<Component />} />;
+            return (
+              <Route
+                key={path}
+                path={path}
+                element={
+                  <CustomRoute path={path} isPublic={isPublic}>
+                    {Component}
+                  </CustomRoute>
+                }
+              />
+            );
           })}
         </Routes>
       </Suspense>

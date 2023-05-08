@@ -34,14 +34,22 @@ async function authUser(loginInfo) {
     throw new Error(msg);
   }
 
-  // Process register account to firebase
-  const userCredential = await signInWithEmailAndPassword(
-    auth,
-    email,
-    password
-  );
-
-  // console.log(userCredential.user);
+  // Process login account to firebase
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const uobj = {
+      access_token: userCredential.user.accessToken,
+      expiration_time: userCredential.user.stsTokenManager.expirationTime,
+      refresh_token: userCredential.user.refreshToken,
+    };
+    return uobj;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }
 
 export { authUser };

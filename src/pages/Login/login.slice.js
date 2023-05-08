@@ -13,10 +13,18 @@ export const loginSlice = createSlice({
     passwordChange: (state, action) => {
       state.password = action.payload;
     },
+    resetPasswordState: (state) => {
+      state.password = "";
+    },
+    resetState: (state) => {
+      state.email = "";
+      state.password = "";
+    },
   },
 });
 
-export const { emailChange, passwordChange } = loginSlice.actions;
+export const { emailChange, passwordChange, resetPasswordState, resetState } =
+  loginSlice.actions;
 
 export default loginSlice.reducer;
 

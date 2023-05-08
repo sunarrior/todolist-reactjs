@@ -17,11 +17,25 @@ export const registerSlice = createSlice({
     repeatPasswordChange: (state, action) => {
       state.repeatPassword = action.payload;
     },
+    resetPasswordState: (state) => {
+      state.password = "";
+      state.repeatPassword = "";
+    },
+    resetState: (state) => {
+      state.email = "";
+      state.password = "";
+      state.repeatPassword = "";
+    },
   },
 });
 
-export const { emailChange, passwordChange, repeatPasswordChange } =
-  registerSlice.actions;
+export const {
+  emailChange,
+  passwordChange,
+  repeatPasswordChange,
+  resetPasswordState,
+  resetState,
+} = registerSlice.actions;
 
 export default registerSlice.reducer;
 

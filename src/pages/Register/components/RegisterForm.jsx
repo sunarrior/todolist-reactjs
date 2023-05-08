@@ -5,6 +5,8 @@ import {
   emailChange,
   passwordChange,
   repeatPasswordChange,
+  resetPasswordState,
+  resetState,
   selectAccountInfo,
 } from "../register.slice";
 import { createUser } from "../register.service";
@@ -17,8 +19,10 @@ export default function RegisterForm() {
     try {
       e.preventDefault();
       const result = await createUser(registerInfo);
+      dispatch(resetState());
       toast(result, { type: "success" });
     } catch (error) {
+      dispatch(resetPasswordState());
       toast(error.message || error, { type: "error" });
     }
   }

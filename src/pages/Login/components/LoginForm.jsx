@@ -1,18 +1,33 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { emailChange, passwordChange, selectAccountInfo } from "../login.slice";
+import { useUser } from "../../../context/user.context";
+import {
+  emailChange,
+  passwordChange,
+  resetPasswordState,
+  resetState,
+  selectAccountInfo,
+} from "../login.slice";
 import { authUser } from "../login.service";
 
-export default function RegisterForm() {
+export default function LoginForm() {
+  const { setIsLoggedIn } = useUser();
   const loginInfo = useSelector(selectAccountInfo);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  async function handleRegister(e) {
+  async function handleLogin(e) {
     try {
       e.preventDefault();
-      await authUser(loginInfo);
+      const result = await authUser(loginInfo);
+      localStorage.setItem("_uobj", JSON.stringify(result));
+      dispatch(resetState());
+      setIsLoggedIn(true);
+      navigate("/");
     } catch (error) {
+      dispatch(resetPasswordState());
       toast(error.message || error, { type: "error" });
     }
   }
@@ -29,7 +44,7 @@ export default function RegisterForm() {
       </div>
       <form
         className="absolute top-[170px] left-[24px] font-lexend-deca"
-        onSubmit={handleRegister}
+        onSubmit={handleLogin}
       >
         <div className="mb-[23px]">
           <input

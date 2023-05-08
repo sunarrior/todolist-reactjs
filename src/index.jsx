@@ -19,7 +19,7 @@ root.render(
       <UserProvider>
         <App />
         <ToastContainer
-          position="bottom-left"
+          position="top-right"
           autoClose={3000}
           pauseOnFocusLoss={false}
           pauseOnHover={false}
