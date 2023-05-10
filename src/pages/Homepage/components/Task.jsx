@@ -2,9 +2,11 @@ import { useDispatch } from "react-redux";
 import { MdModeEditOutline } from "react-icons/md";
 import { BsTrashFill } from "react-icons/bs";
 
-import { taskStateUpdate, taskListDelete } from "../task.slice";
+import { useUser } from "../../../context/user.context";
+import { updateTaskStateFirebase, deleteTaskFirebase } from "../task.slice";
 
 export default function Task({ id, content, isCompleted, onTaskEdit }) {
+  const { userData } = useUser();
   const dispatch = useDispatch();
 
   const taskStyleCompleted = "line-through ml-2";
@@ -21,7 +23,13 @@ export default function Task({ id, content, isCompleted, onTaskEdit }) {
             checked={isCompleted}
             className="w-4 h-4 rounded-md"
             onChange={() =>
-              dispatch(taskStateUpdate({ id, isCompleted: !isCompleted }))
+              dispatch(
+                updateTaskStateFirebase({
+                  email: userData.email,
+                  taskid: id,
+                  isCompleted: !isCompleted,
+                })
+              )
             }
           />
           <label
@@ -42,7 +50,9 @@ export default function Task({ id, content, isCompleted, onTaskEdit }) {
         <BsTrashFill
           size={20}
           color="red"
-          onClick={() => dispatch(taskListDelete(id))}
+          onClick={() =>
+            dispatch(deleteTaskFirebase({ email: userData.email, taskid: id }))
+          }
         />
       </div>
     </div>

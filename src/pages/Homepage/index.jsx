@@ -1,17 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { collection, query, onSnapshot } from "firebase/firestore";
 import { MdPostAdd } from "react-icons/md";
 
-import { taskListAdd, selectTaskList } from "./task.slice";
+import { fireStore } from "../../config/firebase.config";
+import { useUser } from "../../context/user.context";
+import {
+  setTaskList,
+  addTaskFirebase,
+  selectTaskList,
+  resetTaskList,
+} from "./task.slice";
 import NavBar from "../../components/NavBar";
 import Task from "./components/Task";
 import EditTask from "./components/EditTask";
 
 export default function HomePage() {
+  const { userData } = useUser();
   const taskList = useSelector(selectTaskList);
   const dispatch = useDispatch();
   const [taskField, setTaskField] = useState("");
   const [currentEditTask, setCurrentEditTask] = useState(0);
+
+  useEffect(() => {
+    const taskListCollection = collection(fireStore, userData.email);
+    const taskQuery = query(taskListCollection);
+    const unsubscribe = onSnapshot(taskQuery, (queryDocSnapshot) => {
+      const taskListFetch = [];
+      queryDocSnapshot.forEach((doc) => {
+        const data = doc.data();
+        taskListFetch.push({
+          id: doc.id,
+          content: data.content,
+          isCompleted: data.isCompleted,
+        });
+      });
+      taskListFetch.sort((t1, t2) => {
+        return t2.createdAt - t1.createdAt;
+      });
+      dispatch(setTaskList(taskListFetch));
+    });
+    return () => {
+      unsubscribe();
+      dispatch(resetTaskList());
+    };
+  }, [userData, dispatch]);
 
   function handleTaskFieldChange(e) {
     setTaskField(e.target.value);
@@ -19,13 +52,7 @@ export default function HomePage() {
 
   function handleTaskListAdd(e) {
     e.preventDefault();
-    dispatch(
-      taskListAdd({
-        id: taskList.length + 1,
-        content: taskField,
-        isCompleted: false,
-      })
-    );
+    dispatch(addTaskFirebase({ email: userData.email, content: taskField }));
     setTaskField("");
   }
 

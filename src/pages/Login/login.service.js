@@ -42,6 +42,7 @@ async function authUser(loginInfo) {
       password
     );
     const uobj = {
+      email,
       access_token: userCredential.user.accessToken,
       expiration_time: userCredential.user.stsTokenManager.expirationTime,
       refresh_token: userCredential.user.refreshToken,

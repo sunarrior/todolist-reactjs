@@ -4,9 +4,10 @@ const UserContext = createContext();
 
 function UserProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const loginState = useMemo(
-    () => ({ isLoggedIn, setIsLoggedIn }),
-    [isLoggedIn]
+  const [userData, setUserData] = useState();
+  const userContext = useMemo(
+    () => ({ isLoggedIn, setIsLoggedIn, userData }),
+    [isLoggedIn, userData]
   );
 
   useEffect(() => {
@@ -16,11 +17,12 @@ function UserProvider({ children }) {
       if (timeLeft > 0) {
         setIsLoggedIn(true);
       }
+      setUserData({ ...userData, email: uobj.email });
     }
   }, []);
 
   return (
-    <UserContext.Provider value={loginState}>{children}</UserContext.Provider>
+    <UserContext.Provider value={userContext}>{children}</UserContext.Provider>
   );
 }
 
