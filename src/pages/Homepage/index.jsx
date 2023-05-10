@@ -1,14 +1,32 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { MdPostAdd } from "react-icons/md";
 
+import { taskListAdd, selectTaskList } from "./task.slice";
 import NavBar from "../../components/NavBar";
 import Task from "./components/Task";
+import EditTask from "./components/EditTask";
 
 export default function HomePage() {
+  const taskList = useSelector(selectTaskList);
+  const dispatch = useDispatch();
   const [taskField, setTaskField] = useState("");
+  const [currentEditTask, setCurrentEditTask] = useState(0);
 
   function handleTaskFieldChange(e) {
     setTaskField(e.target.value);
+  }
+
+  function handleTaskListAdd(e) {
+    e.preventDefault();
+    dispatch(
+      taskListAdd({
+        id: taskList.length + 1,
+        content: taskField,
+        isCompleted: false,
+      })
+    );
+    setTaskField("");
   }
 
   return (
@@ -21,21 +39,44 @@ export default function HomePage() {
           </div>
         </div>
         <div className="absolute w-full top-20 left-5">
-          <div className="flex justify-center">
+          <form className="flex justify-center" onSubmit={handleTaskListAdd}>
             <input
               type="text"
               className="w-1/2 lg:w-1/3 max-[640px]:w-[65%] border-2 border-black rounded-lg px-3"
               value={taskField}
+              placeholder="What you want to do?"
               onChange={handleTaskFieldChange}
             />
-            <MdPostAdd size={35} className="ml-2 mb-1" />
-          </div>
+            <button type="submit">
+              <MdPostAdd size={35} className="ml-2 mb-1" />
+            </button>
+          </form>
         </div>
         {/* Tasklist field */}
         <div className="absolute w-1/2 lg:w-1/3 max-[640px]:w-[80%] left-1/2 -translate-x-1/2 top-[20%]">
           <div className="absolute w-full">
-            <Task id={1} content="Completed Task" isCompleted />
-            <Task id={2} content="Incompleted Task" isCompleted={false} />
+            {taskList.length > 0 &&
+              taskList.map((task) => {
+                if (currentEditTask === task.id) {
+                  return (
+                    <EditTask
+                      key={task.id}
+                      id={task.id}
+                      content={task.content}
+                      onCancelEdit={setCurrentEditTask}
+                    />
+                  );
+                }
+                return (
+                  <Task
+                    key={task.id}
+                    id={task.id}
+                    content={task.content}
+                    isCompleted={task.isCompleted}
+                    onTaskEdit={setCurrentEditTask}
+                  />
+                );
+              })}
           </div>
         </div>
       </div>
