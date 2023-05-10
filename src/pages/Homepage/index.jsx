@@ -33,6 +33,8 @@ export default function HomePage() {
           id: doc.id,
           content: data.content,
           isCompleted: data.isCompleted,
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
         });
       });
       taskListFetch.sort((t1, t2) => {
@@ -81,7 +83,7 @@ export default function HomePage() {
         </div>
         {/* Tasklist field */}
         <div className="absolute w-1/2 lg:w-1/3 max-[640px]:w-[80%] left-1/2 -translate-x-1/2 top-[20%]">
-          <div className="absolute w-full">
+          <div className="w-full">
             {taskList.length > 0 &&
               taskList.map((task) => {
                 if (currentEditTask === task.id) {
