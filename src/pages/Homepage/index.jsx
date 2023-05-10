@@ -12,6 +12,7 @@ import {
   resetTaskList,
 } from "./task.slice";
 import NavBar from "../../components/NavBar";
+import Spinner from "../../components/Spinner";
 import Task from "./components/Task";
 import EditTask from "./components/EditTask";
 
@@ -84,6 +85,13 @@ export default function HomePage() {
         {/* Tasklist field */}
         <div className="absolute w-1/2 lg:w-1/3 max-[640px]:w-[80%] left-1/2 -translate-x-1/2 top-[20%]">
           <div className="w-full">
+            {taskList.length <= 0 && (
+              <div className="h-screen">
+                <div className="h-1/5">
+                  <Spinner />
+                </div>
+              </div>
+            )}
             {taskList.length > 0 &&
               taskList.map((task) => {
                 if (currentEditTask === task.id) {

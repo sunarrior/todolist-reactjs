@@ -8,7 +8,13 @@ import routes from "./pages/routes";
 export default function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<Spinner />}>
+      <Suspense
+        fallback={
+          <div className="w-screen h-screen">
+            <Spinner />
+          </div>
+        }
+      >
         <Routes>
           {routes.map(({ path, isPublic, component: Component }) => {
             return (
