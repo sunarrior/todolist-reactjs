@@ -1,8 +1,33 @@
+@import url("https://fonts.googleapis.com/css?family=Lexend+Deca");
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
 @tailwind base;
 @tailwind components;
+
+@layer components {
+  .code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+  
+  .link {
+    color: #093545;
+    text-decoration-line: underline;
+    font-family: "Montserrat";
+  }
+}
+
 @tailwind utilities;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.Toastify__toast--success {
+  height: 100px !important;
+  border-radius: 15px !important;
+}
+.Toastify__toast--warning {
+  height: 100px !important;
+  border-radius: 15px !important;
+}
+.Toastify__toast--error {
+  height: 100px !important;
+  border-radius: 15px !important;
 }

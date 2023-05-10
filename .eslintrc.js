@@ -4,6 +4,7 @@ module.exports = {
     es2021: true,
   },
   extends: [
+    "prettier",
     "plugin:react/recommended",
     "airbnb",
     "plugin:prettier/recommended",
@@ -15,6 +16,23 @@ module.exports = {
   },
   plugins: ["react", "prettier"],
   rules: {
+    "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
+    "import/prefer-default-export": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto",
+      },
+    ],
+    "no-unused-vars": "warn",
+    "no-param-reassign": [
+      "error",
+      {
+        props: true,
+        ignorePropertyModificationsFor: ["state"],
+      },
+    ],
+    "import/no-extraneous-dependencies": "off",
   },
 };
