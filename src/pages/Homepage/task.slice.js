@@ -27,7 +27,7 @@ export const updateTaskStateFirebase = createAsyncThunk(
   "task/updateTaskStateFirebase",
   async ({ email, taskid, isCompleted }) => {
     const taskDocument = doc(fireStore, email, taskid);
-    const updateTask = { isCompleted, updatedAt: new Date() };
+    const updateTask = { isCompleted, updatedAt: new Date().getTime() };
     await updateDoc(taskDocument, updateTask);
   }
 );
@@ -36,7 +36,11 @@ export const updateTaskFirebase = createAsyncThunk(
   "task/updateTaskFirebase",
   async ({ email, taskid, content }) => {
     const taskDocument = doc(fireStore, email, taskid);
-    const updateTask = { content, isCompleted: false, updatedAt: new Date() };
+    const updateTask = {
+      content,
+      isCompleted: false,
+      updatedAt: new Date().getTime(),
+    };
     await updateDoc(taskDocument, updateTask);
   }
 );
