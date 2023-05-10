@@ -3,14 +3,22 @@ import { useDispatch } from "react-redux";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 
-import { taskUpdate } from "../task.slice";
+import { useUser } from "../../../context/user.context";
+import { updateTaskFirebase } from "../task.slice";
 
 export default function EditTask({ id, content, onCancelEdit }) {
+  const { userData } = useUser();
   const dispatch = useDispatch();
   const [newContent, setNewContent] = useState(content);
 
   function handleEditTask() {
-    dispatch(taskUpdate({ id, content: newContent }));
+    dispatch(
+      updateTaskFirebase({
+        taskid: id,
+        email: userData.email,
+        content: newContent,
+      })
+    );
     onCancelEdit(0);
   }
 
