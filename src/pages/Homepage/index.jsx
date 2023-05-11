@@ -12,7 +12,7 @@ import {
   resetTaskList,
 } from "./task.slice";
 import NavBar from "../../components/NavBar";
-import Spinner from "../../components/Spinner";
+import Spinner from "../../components/Spinner16x16";
 import Task from "./components/Task";
 import EditTask from "./components/EditTask";
 
@@ -21,9 +21,14 @@ export default function HomePage() {
   const taskList = useSelector(selectTaskList);
   const dispatch = useDispatch();
   const [taskField, setTaskField] = useState("");
+  const [isFetching, setIsFetching] = useState(false);
   const [currentEditTask, setCurrentEditTask] = useState(0);
 
   useEffect(() => {
+    setIsFetching(true);
+    if (!userData?.email) {
+      return setIsFetching(false);
+    }
     const taskListCollection = collection(fireStore, userData.email);
     const taskQuery = query(taskListCollection);
     const unsubscribe = onSnapshot(taskQuery, (queryDocSnapshot) => {
@@ -42,6 +47,7 @@ export default function HomePage() {
         return t2.createdAt - t1.createdAt;
       });
       dispatch(setTaskList(taskListFetch));
+      setIsFetching(false);
     });
     return () => {
       unsubscribe();
@@ -85,7 +91,7 @@ export default function HomePage() {
         {/* Tasklist field */}
         <div className="absolute w-1/2 lg:w-1/3 max-[640px]:w-[80%] left-1/2 -translate-x-1/2 top-[20%]">
           <div className="w-full">
-            {taskList.length <= 0 && (
+            {isFetching && (
               <div className="h-screen">
                 <div className="h-1/5">
                   <Spinner />
