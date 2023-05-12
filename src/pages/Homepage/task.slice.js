@@ -17,6 +17,7 @@ export const addTaskFirebase = createAsyncThunk(
       content,
       isCompleted: false,
       dueDate: new Date().getTime(),
+      priority: 1,
       createdAt: new Date().getTime(),
       updatedAt: new Date().getTime(),
     };
