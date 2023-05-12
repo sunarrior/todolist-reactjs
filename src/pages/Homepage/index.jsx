@@ -104,7 +104,7 @@ export default function HomePage() {
           </form>
         </div>
         {/* Tasklist field */}
-        <div className="flex max-[640px]:flex-col min-[641px]:justify-around h-1/2 w-full translate-y-1/2 max-[640px]:translate-y-[20%] max-[769px]:translate-y-[37%]">
+        <div className="flex max-[640px]:flex-col min-[641px]:justify-around h-1/2 w-full translate-y-40">
           <div className="w-1/2 max-[640px]:w-[80%] min-[641px]:w-[45%] lg:w-[45%] max-[640px]:translate-x-[11%]">
             <div className="w-full h-10 border border-black rounded-lg bg-yellow-300 mb-3">
               <p className="w-full text-center mt-2 font-bold">In Progess</p>
