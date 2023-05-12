@@ -22,7 +22,9 @@ export default function Task({
   const { userData } = useUser();
   const dispatch = useDispatch();
 
-  const timeLeft = new Date(dueDate).getTime() - new Date().getTime();
+  const dueDateMidNight = new Date(dueDate);
+  dueDateMidNight.setHours(0);
+  const timeLeft = dueDateMidNight.getTime() + 86400000 - new Date().getTime();
   const normalTask = "relative h-fit p-2 border border-black rounded-lg mb-4";
   const dueTask =
     "relative h-fit p-2 border border-black rounded-lg mb-4 bg-red-200";

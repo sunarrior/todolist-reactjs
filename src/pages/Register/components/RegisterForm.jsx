@@ -38,7 +38,7 @@ export default function RegisterForm() {
         </p>
       </div>
       <form
-        className="absolute top-[170px] left-1/2 -translate-x-1/3 font-lexend-deca"
+        className="absolute top-[170px] left-1/2 -translate-x-1/2 font-lexend-deca"
         onSubmit={handleRegister}
       >
         <div className="mb-[23px]">
