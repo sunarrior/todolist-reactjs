@@ -84,12 +84,12 @@ export default function HomePage() {
     <NavBar>
       <div className="relative w-full h-full">
         {/* Todolist header and input task field */}
-        <div className="absolute w-full top-5 max-[640px]:translate-x-[6%]">
-          <div className="flex justify-center">
+        <div className="absolute w-full top-5 -translate-x-3 max-[640px]:left-1/2 max-[640px]:-translate-x-1/2">
+          <div className="flex justify-around">
             <p className="font-bold text-3xl">TODO LIST</p>
           </div>
         </div>
-        <div className="absolute w-[90%] top-20 left-1/2 -translate-x-1/2 max-[640px]:translate-x-[5%]">
+        <div className="absolute w-full top-20 left-1/2 -translate-x-1/2">
           <form className="flex justify-center" onSubmit={handleTaskListAdd}>
             <input
               type="text"
@@ -104,8 +104,8 @@ export default function HomePage() {
           </form>
         </div>
         {/* Tasklist field */}
-        <div className="flex max-[640px]:flex-col w-full h-1/2 min-[641px]:justify-around translate-y-1/2 max-[640px]:translate-x-[17%] max-[640px]:translate-y-[45%]">
-          <div className="w-1/2 md:w-[40%] lg:w-1/3 max-[640px]:w-[80%]">
+        <div className="flex max-[640px]:flex-col min-[641px]:justify-around h-1/2 w-full translate-y-1/2 max-[640px]:translate-y-[20%] max-[769px]:translate-y-[37%]">
+          <div className="w-1/2 max-[640px]:w-[80%] min-[641px]:w-[45%] lg:w-[45%] max-[640px]:translate-x-[11%]">
             <div className="w-full h-10 border border-black rounded-lg bg-yellow-300 mb-3">
               <p className="w-full text-center mt-2 font-bold">In Progess</p>
             </div>
@@ -143,7 +143,7 @@ export default function HomePage() {
                 })}
             </div>
           </div>
-          <div className="w-1/2 md:w-[40%] lg:w-1/3 max-[640px]:w-[80%]">
+          <div className="w-1/2 max-[640px]:w-[80%] min-[641px]:w-[45%] lg:w-[45%] max-[640px]:translate-x-[11%]">
             <div className="w-full h-10 border border-black rounded-lg bg-green-300 mb-3">
               <p className="w-full text-center mt-2 font-bold">Completed</p>
             </div>

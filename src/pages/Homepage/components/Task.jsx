@@ -79,10 +79,10 @@ export default function Task({
           />
         </div>
         <div className="flex max-[769px]:flex-col mt-2">
-          <div className="static max-[320px]:w-[65%] max-[640px]:w-[60%] sm:w-[50%] md:w-[60%] lg:w-[40%] xl:w-[40%] border border-black rounded-md px-2 py-1 bg-white">
+          <div className="static max-[290px]:w-[65%] max-[769px]:w-[75%] min-[770px]:w-[40%] lg:w-[40%] xl:w-[40%] border border-black rounded-md px-2 py-1 bg-white">
             <input
               type="date"
-              className="bg-white"
+              className="w-full bg-white"
               value={getYYYYMMDDString(dueDate)}
               onChange={(e) =>
                 dispatch(
@@ -95,7 +95,7 @@ export default function Task({
               }
             />
           </div>
-          <div className="ml-2 static max-[320px]:w-[65%] max-[640px]:w-[55%] sm:w-[50%] md:w-[60%] lg:w-[40%] xl:w-[40%] border border-black rounded-md px-2 py-1 bg-white">
+          <div className="min-[770px]:ml-2 max-[769px]:mt-2 static max-[290px]:w-[65%] max-[769px]:w-[75%] min-[770px]:w-[40%] lg:w-[40%] xl:w-[40%] border border-black rounded-md px-2 py-1 bg-white">
             <select
               className="w-full bg-white"
               value={priority || 1}
