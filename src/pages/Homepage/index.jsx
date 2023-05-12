@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { collection, query, onSnapshot } from "firebase/firestore";
+import { toast } from "react-toastify";
 import { MdPostAdd } from "react-icons/md";
 
 import { fireStore } from "../../config/firebase.config";
@@ -17,6 +18,7 @@ import NavBar from "../../components/NavBar";
 import Spinner from "../../components/Spinner16x16";
 import Task from "./components/Task";
 import EditTask from "./components/EditTask";
+import taskConstant from "../../constant/task.constant";
 
 export default function HomePage() {
   const { userData } = useUser();
@@ -76,6 +78,10 @@ export default function HomePage() {
 
   function handleTaskListAdd(e) {
     e.preventDefault();
+    if (taskField.localeCompare("") === 0) {
+      toast(taskConstant.EMPTY_TASK_FIELD, { type: "error" });
+      return;
+    }
     dispatch(addTaskFirebase({ email: userData.email, content: taskField }));
     setTaskField("");
   }
@@ -97,6 +103,7 @@ export default function HomePage() {
               value={taskField}
               placeholder="What you want to do?"
               onChange={handleTaskFieldChange}
+              required
             />
             <button type="submit">
               <MdPostAdd size={35} className="ml-2 mb-1" />

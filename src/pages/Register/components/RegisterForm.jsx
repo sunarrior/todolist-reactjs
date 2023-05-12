@@ -10,6 +10,7 @@ import {
   selectAccountInfo,
 } from "../register.slice";
 import { createUser } from "../register.service";
+import registerConstant from "../../../constant/register.constant";
 
 export default function RegisterForm() {
   const registerInfo = useSelector(selectAccountInfo);
@@ -18,6 +19,14 @@ export default function RegisterForm() {
   async function handleRegister(e) {
     try {
       e.preventDefault();
+      if (
+        registerInfo.email.localeCompare("") === 0 ||
+        registerInfo.password.localeCompare("") === 0 ||
+        registerInfo.repeatPassword.localeCompare("") === 0
+      ) {
+        toast(registerConstant.MISSING_INFORMATION, { type: "error" });
+        return;
+      }
       const result = await createUser(registerInfo);
       dispatch(resetState());
       toast(result, { type: "success" });
