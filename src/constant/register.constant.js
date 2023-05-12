@@ -1,4 +1,5 @@
 export default {
+  MISSING_INFORMATION: "Please fill all required fields",
   PASSWORD: {
     REPEAT_PASSWORD_NOT_MATCH: "Repeat password not match",
     PASSWORD_NOT_MATCH_REQUIREMENT: "Password does not match requirement",

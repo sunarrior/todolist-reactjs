@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCheckLg } from "react-icons/bs";
 
 import { useUser } from "../../../context/user.context";
 import { updateTaskFirebase } from "../task.slice";
+import taskConstant from "../../../constant/task.constant";
 
 export default function EditTask({ id, content, onCancelEdit }) {
   const { userData } = useUser();
@@ -12,6 +14,10 @@ export default function EditTask({ id, content, onCancelEdit }) {
   const [newContent, setNewContent] = useState(content);
 
   function handleEditTask() {
+    if (newContent.localeCompare("") === 0) {
+      toast(taskConstant.EMPTY_TASK_FIELD, { type: "error" });
+      return;
+    }
     dispatch(
       updateTaskFirebase({
         taskid: id,
@@ -34,6 +40,7 @@ export default function EditTask({ id, content, onCancelEdit }) {
             value={newContent}
             className="px-2 w-3/4 border border-black rounded-md"
             onChange={(e) => setNewContent(e.target.value)}
+            required
           />
         </div>
       </div>
