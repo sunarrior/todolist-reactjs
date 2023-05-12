@@ -38,13 +38,13 @@ export default function RegisterForm() {
         </p>
       </div>
       <form
-        className="absolute top-[170px] left-[24px] font-lexend-deca"
+        className="absolute top-[170px] left-1/2 -translate-x-1/3 font-lexend-deca"
         onSubmit={handleRegister}
       >
         <div className="mb-[23px]">
           <input
             type="email"
-            className="px-4 py-2 w-[300px] h-[45px] border rounded-xl bg-[#224957] text-white text-sm"
+            className="px-4 py-2 w-[300px] max-[335px]:w-[100%] h-[45px] border rounded-xl bg-[#224957] text-white text-sm"
             placeholder="Email"
             value={registerInfo.email}
             onChange={(e) => dispatch(emailChange(e.target.value))}
@@ -54,7 +54,7 @@ export default function RegisterForm() {
         <div className="mb-[23px]">
           <input
             type="password"
-            className="px-4 py-2 w-[300px] h-[45px] border rounded-xl bg-[#224957] text-white text-sm"
+            className="px-4 py-2 w-[300px] max-[335px]:w-[100%] h-[45px] border rounded-xl bg-[#224957] text-white text-sm"
             placeholder="Password"
             value={registerInfo.password}
             onChange={(e) => dispatch(passwordChange(e.target.value))}
@@ -64,7 +64,7 @@ export default function RegisterForm() {
         <div className="mb-[20px]">
           <input
             type="password"
-            className="px-4 py-2 w-[300px] h-[45px] border rounded-xl bg-[#224957] text-white text-sm"
+            className="px-4 py-2 w-[300px] max-[335px]:w-[100%] h-[45px] border rounded-xl bg-[#224957] text-white text-sm"
             placeholder="Repeat Password"
             value={registerInfo.repeatPassword}
             onChange={(e) => dispatch(repeatPasswordChange(e.target.value))}
@@ -79,7 +79,7 @@ export default function RegisterForm() {
         </div>
         <button
           type="submit"
-          className="px-4 py2 w-[300px] h-[45px] rounded-xl bg-[#20DF7F] hover:bg-[#2af992] font-normal text-[#224957] text-[16px]"
+          className="px-4 py2 w-[300px] max-[335px]:w-[100%] h-[45px] rounded-xl bg-[#20DF7F] hover:bg-[#2af992] font-normal text-[#224957] text-[16px]"
         >
           Register
         </button>

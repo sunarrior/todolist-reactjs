@@ -16,6 +16,7 @@ export const addTaskFirebase = createAsyncThunk(
     const newTask = {
       content,
       isCompleted: false,
+      dueDate: new Date().getTime(),
       createdAt: new Date().getTime(),
       updatedAt: new Date().getTime(),
     };
@@ -27,7 +28,7 @@ export const updateTaskStateFirebase = createAsyncThunk(
   "task/updateTaskStateFirebase",
   async ({ email, taskid, isCompleted }) => {
     const taskDocument = doc(fireStore, email, taskid);
-    const updateTask = { isCompleted, updatedAt: new Date() };
+    const updateTask = { isCompleted, updatedAt: new Date().getTime() };
     await updateDoc(taskDocument, updateTask);
   }
 );
@@ -36,7 +37,37 @@ export const updateTaskFirebase = createAsyncThunk(
   "task/updateTaskFirebase",
   async ({ email, taskid, content }) => {
     const taskDocument = doc(fireStore, email, taskid);
-    const updateTask = { content, isCompleted: false, updatedAt: new Date() };
+    const updateTask = {
+      content,
+      isCompleted: false,
+      updatedAt: new Date().getTime(),
+    };
+    await updateDoc(taskDocument, updateTask);
+  }
+);
+
+export const updateDueDateTaskFirebase = createAsyncThunk(
+  "task/updateDueDateTask",
+  async ({ email, taskid, dueDate }) => {
+    const taskDocument = doc(fireStore, email, taskid);
+    const updateTask = {
+      dueDate,
+      isCompleted: false,
+      updatedAt: new Date().getTime(),
+    };
+    await updateDoc(taskDocument, updateTask);
+  }
+);
+
+export const updateTaskPriorityFirebase = createAsyncThunk(
+  "task/updateTaskPriority",
+  async ({ email, taskid, priority }) => {
+    const taskDocument = doc(fireStore, email, taskid);
+    const updateTask = {
+      priority,
+      isCompleted: false,
+      updatedAt: new Date().getTime(),
+    };
     await updateDoc(taskDocument, updateTask);
   }
 );
@@ -52,13 +83,17 @@ export const deleteTaskFirebase = createAsyncThunk(
 export const taskSlice = createSlice({
   name: "task",
   initialState: {
-    tasks: [],
+    inProgressTasks: [],
+    completedTasks: [],
     status: "idle",
     error: null,
   },
   reducers: {
-    setTaskList: (state, action) => {
-      state.tasks = action.payload;
+    setInProgressTasks: (state, action) => {
+      state.inProgressTasks = action.payload;
+    },
+    setCompletedTasks: (state, action) => {
+      state.completedTasks = action.payload;
     },
     resetTaskList: (state) => {
       state.tasks = [];
@@ -66,10 +101,15 @@ export const taskSlice = createSlice({
   },
 });
 
-export const { setTaskList, resetTaskList } = taskSlice.actions;
+export const { setInProgressTasks, setCompletedTasks, resetTaskList } =
+  taskSlice.actions;
 
 export default taskSlice.reducer;
 
-export const selectTaskList = (state) => {
-  return state.task.tasks;
+export const selectInProgessTasks = (state) => {
+  return state.task.inProgressTasks;
+};
+
+export const selectCompletedTasks = (state) => {
+  return state.task.completedTasks;
 };

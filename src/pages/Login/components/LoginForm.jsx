@@ -1,5 +1,5 @@
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useUser } from "../../../context/user.context";
@@ -11,29 +11,37 @@ import {
   selectAccountInfo,
 } from "../login.slice";
 import { authUser } from "../login.service";
+import Spinner from "../../../components/Spinner6x6";
+import loginConstant from "../../../constant/login.constant";
 
 export default function LoginForm() {
-  const { setIsLoggedIn } = useUser();
+  const { userData, setIsLoggedIn, setUserData } = useUser();
   const loginInfo = useSelector(selectAccountInfo);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   async function handleLogin(e) {
     try {
       e.preventDefault();
+      if (!loginInfo.email && !loginInfo.password) {
+        throw new Error(loginConstant.MISSING_INFORMATION);
+      }
+      setIsProcessing(true);
       const result = await authUser(loginInfo);
       localStorage.setItem("_uobj", JSON.stringify(result));
       dispatch(resetState());
+      setUserData({ ...userData, email: result.email });
       setIsLoggedIn(true);
-      navigate("/");
+      setIsProcessing(false);
     } catch (error) {
       dispatch(resetPasswordState());
+      setIsProcessing(false);
       toast(error.message || error, { type: "error" });
     }
   }
 
   return (
-    <div className="relative w-full h-full rounded-md">
+    <div className="relative w-full h-full rounded-md text-center">
       <div>
         <h1 className="text-slate-700 h-[80px] text-[64px]/[70px] font-lexend-deca text-center mb-[30px]">
           Sign in
@@ -43,27 +51,29 @@ export default function LoginForm() {
         </p>
       </div>
       <form
-        className="absolute top-[170px] left-[24px] font-lexend-deca"
+        className="absolute top-[170px] left-1/2 -translate-x-1/2 font-lexend-deca"
         onSubmit={handleLogin}
       >
         <div className="mb-[23px]">
           <input
             type="email"
-            className="px-4 py-2 w-[300px] h-[45px] border rounded-xl bg-[#224957] text-white text-sm"
+            className="px-4 py-2 w-[300px] max-[335px]:w-[100%] h-[45px] border rounded-xl bg-[#224957] disabled:bg-[#31687c] text-white text-sm"
             placeholder="Email"
             value={loginInfo.email}
             onChange={(e) => dispatch(emailChange(e.target.value))}
             required
+            disabled={isProcessing}
           />
         </div>
         <div className="mb-[20px]">
           <input
             type="password"
-            className="px-4 py-2 w-[300px] h-[45px] border rounded-xl bg-[#224957] text-white text-sm"
+            className="px-4 py-2 w-[300px] max-[335px]:w-[100%] h-[45px] border rounded-xl bg-[#224957] disabled:bg-[#31687c] text-white text-sm"
             placeholder="Password"
             value={loginInfo.password}
             onChange={(e) => dispatch(passwordChange(e.target.value))}
             required
+            disabled={isProcessing}
           />
         </div>
         <div className="flex mb-[23px] ml-[6px]">
@@ -74,9 +84,16 @@ export default function LoginForm() {
         </div>
         <button
           type="submit"
-          className="px-4 py2 w-[300px] h-[45px] rounded-xl bg-[#20DF7F] hover:bg-[#2af992] font-normal text-[#224957] text-[16px]"
+          className="px-4 py2 w-[300px] max-[335px]:w-[80%] h-[45px] rounded-xl bg-[#20DF7F] hover:bg-[#2af992] disabled:bg-[#1cca73] font-normal text-[#224957] text-[16px]"
+          disabled={isProcessing}
         >
-          Login
+          {isProcessing ? (
+            <div className="w-full h-full">
+              <Spinner />
+            </div>
+          ) : (
+            "Login"
+          )}
         </button>
       </form>
     </div>

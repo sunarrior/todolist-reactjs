@@ -24,7 +24,7 @@ export default function EditTask({ id, content, onCancelEdit }) {
 
   return (
     <div className="relative h-12 p-2 border border-black rounded-lg mb-4">
-      <div className="absolute left-2 w-full">
+      <div className="absolute left-2 w-[95%]">
         <div className="flex items-center mt-[3px]">
           <input
             id={id}
